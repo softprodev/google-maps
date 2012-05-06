@@ -49,28 +49,19 @@ namespace GoogleMapsApi.Engine
 
 		protected TResponse QueryGoogleAPI(TRequest request)
 		{
-		    Uri uri;
-		    var client = GetWebClient(request, out uri);
-            return Deserialize(client.DownloadString(uri));
+			return QueryGoogleAPIAsync(request).Result;
 		}
 
 		protected Task<TResponse> QueryGoogleAPIAsync(TRequest request)
 		{
-		    Uri uri;
-		    var client = GetWebClient(request, out uri);
-		    return client.DownloadStringTaskAsync(uri)
+			var client = new WebClient();
+			ConfigureUnderlyingWebClient(client, request);
+			var uri = GetUri(request);
+			return client.DownloadStringTaskAsync(uri)
 				.ContinueWith(t => Deserialize(t.Result), TaskContinuationOptions.ExecuteSynchronously);
 		}
 
-	    private WebClient GetWebClient(TRequest request, out Uri uri)
-	    {
-	        var client = new WebClient();
-	        ConfigureUnderlyingWebClient(client, request);
-	        uri = GetUri(request);
-	        return client;
-	    }
-
-	    private Uri GetUri(MapsBaseRequest request)
+		private Uri GetUri(MapsBaseRequest request)
 		{
 			string scheme = request.IsSSL ? "https://" : "http://";
 			return new Uri(scheme + BaseUrl + "json");
