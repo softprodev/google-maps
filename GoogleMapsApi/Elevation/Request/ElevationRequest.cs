@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
-using GoogleMapsApi.Entities.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using GoogleMapsApi.Common;
 
-namespace GoogleMapsApi.Entities.Elevation.Request
+namespace GoogleMapsApi.Elevation.Request
 {
 	//http://code.google.com/apis/maps/documentation/elevation/
 

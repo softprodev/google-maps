@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Runtime.Serialization;
 
-namespace GoogleMapsApi.Entities.Common
+namespace GoogleMapsApi.Common
 {
     [DataContract]
-    public class Location : ILocation
+    public class Location
     {
         [DataMember(Name="lat")]
         public double Latitude { get; set; }
@@ -17,10 +20,5 @@ namespace GoogleMapsApi.Entities.Common
 					Latitude = lat;
 					Longitude = lng;
 				}
-
-    	public string LocationString
-    	{
-				get { return string.Format("{0},{1}", this.Latitude, this.Longitude); }
-    	}
     }
 }

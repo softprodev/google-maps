@@ -1,6 +1,14 @@
-﻿using GoogleMapsApi.Entities.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using GoogleMapsApi.Geocoding.Response;
+using System.Collections.Specialized;
+using System.Net;
+using System.Runtime.Serialization.Json;
+using GoogleMapsApi.Common;
 
-namespace GoogleMapsApi.Entities.Geocoding.Request
+namespace GoogleMapsApi.Geocoding.Request
 {
 	public class GeocodingRequest : MapsBaseRequest
 	{

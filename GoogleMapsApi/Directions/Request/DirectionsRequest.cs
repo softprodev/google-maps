@@ -1,6 +1,19 @@
-﻿using GoogleMapsApi.Entities.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Configuration;
+using System.Net;
+using System.Xml;
+using System.Diagnostics;
+using System.Collections.Specialized;
+using System.IO;
+using System.Xml.Serialization;
+using GoogleMapsApi.Directions.Response;
+using System.Runtime.Serialization.Json;
+using GoogleMapsApi.Common;
 
-namespace GoogleMapsApi.Entities.Directions.Request
+namespace GoogleMapsApi.Directions.Request
 {
 	public class DirectionsRequest : MapsBaseRequest
 	{
@@ -32,18 +45,8 @@ namespace GoogleMapsApi.Entities.Directions.Request
 		public AvoidWay Avoid { get; set; }
 
 		/// <summary>
-		/// language (optional) — The language in which to return results. See the supported list of domain languages. 
-		/// Note that we often update supported languages so this list may not be exhaustive. 
-		/// If language is not supplied, the Directions service will attempt to use the native language of the browser wherever possible. 
-		/// You may also explicitly bias the results by using localized domains of http://map.google.com. 
-		/// See Region Biasing for more information.
+		/// language (optional) — The language in which to return results. See the supported list of domain languages. Note that we often update supported languages so this list may not be exhaustive. If language is not supplied, the Directions service will attempt to use the native language of the browser wherever possible. You may also explicitly bias the results by using localized domains of http://map.google.com. See Region Biasing for more information.
 		/// </summary>
 		public string Language { get; set; }
-
-
-		/// <summary>
-		/// (optional, defaults to driving) — specifies what mode of transport to use when calculating directions. Valid values are specified in Travel Modes.
-		/// </summary>
-		public TravelMode TravelMode { get; set; }
 	}
 }
