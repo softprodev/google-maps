@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Text;
 using GoogleMapsApi.Engine;
 using GoogleMapsApi.Entities.Common;
@@ -47,6 +48,23 @@ namespace GoogleMapsApi.Test
 				Assert.Inconclusive("Cannot run test since you have exceeded your Google API query limit.");
 			Assert.AreEqual(Status.OK, result.Status);
 			Assert.AreEqual("40.7141289,-73.9614074", result.Results.First().Geometry.Location.LocationString);
+		}
+
+		[Test]
+		[ExpectedException(typeof(AuthenticationException))]
+		public void Geocoding_InvalidClientCredentials_Throws()
+		{
+			var engine = new GeocodingEngine();
+			var request = new GeocodingRequest { Address = "285 Bedford Ave, Brooklyn, NY 11211, USA", ClientID = "gme-ThisIsAUnitTest", SigningKey = "AAECAwQFBgcICQoLDA0ODxAREhM=" };
+
+			try
+			{
+				engine.GetGeocode(request);
+			}
+			catch (AggregateException ex)
+			{
+				throw ex.InnerException;
+			}
 		}
 
 		[Test]
