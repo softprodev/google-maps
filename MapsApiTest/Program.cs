@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Text;
 using System.Threading;
 using GoogleMapsApi;
+using GoogleMapsApi.Engine;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
 using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi.Entities.Elevation.Response;
+using System.Reflection;
 using GoogleMapsApi.Entities.Geocoding.Request;
 using GoogleMapsApi.Entities.Geocoding.Response;
 using GoogleMapsApi.StaticMaps;
 using GoogleMapsApi.StaticMaps.Entities;
+using GoogleMapsApi.StaticMaps.Enums;
 
 namespace MapsApiTest
 {
@@ -19,27 +23,17 @@ namespace MapsApiTest
 	{
 		static void Main(string[] args)
 		{
-			// Driving directions
-			var drivingDirectionRequest = new DirectionsRequest
+			// Directions
+			var directionsRequest = new DirectionsRequest
 			{
 				Origin = "NYC, 5th and 39",
-				Destination = "Philladephia, Chesnut and Wallnut"
+				Destination = "Philladephia, Chesnut and Wallnut",
 			};
 
-			DirectionsResponse drivingDirections = GoogleMaps.Directions.Query(drivingDirectionRequest);
-			PrintDirections(drivingDirections);
+			DirectionsResponse directions = GoogleMaps.Directions.Query(directionsRequest);
 
-			// Transit directions
-			var transitDirectionRequest = new DirectionsRequest
-			{
-				Origin = "New York",
-				Destination = "Queens",
-				TravelMode = TravelMode.Transit,
-				DepartureTime = DateTime.Now
-			};
+			Console.WriteLine(directions);
 
-			DirectionsResponse transitDirections = GoogleMaps.Directions.Query(transitDirectionRequest);
-			PrintDirections(transitDirections);
 
 			// Geocode
 			var geocodeRequest = new GeocodingRequest
@@ -48,13 +42,15 @@ namespace MapsApiTest
 			};
 
 			GeocodingResponse geocode = GoogleMaps.Geocode.Query(geocodeRequest);
+
 			Console.WriteLine(geocode);
+
 
 			// Static maps API - get static map of with the path of the directions request
 			var staticMapGenerator = new StaticMapsEngine();
 
 			//Path from previous directions request
-			IEnumerable<Step> steps = drivingDirections.Routes.First().Legs.First().Steps;
+			IEnumerable<Step> steps = directions.Routes.First().Legs.First().Steps;
 			// All start locations
 			IList<ILocationString> path = steps.Select(step => step.StartLocation).ToList<ILocationString>();
 			// also the end location of the last step
@@ -70,9 +66,13 @@ namespace MapsApiTest
 						},
 						Locations = path
 					}}
+
+
 			});
 
 			Console.WriteLine("Map with path: " + url);
+
+
 
 			// Async! (Elevation)
 			var elevationRequest = new ElevationRequest
@@ -82,7 +82,7 @@ namespace MapsApiTest
 
 			var task = GoogleMaps.Elevation.QueryAsync(elevationRequest)
 				.ContinueWith(t => Console.WriteLine("\n" + t.Result));
-
+			
 			Console.Write("Asynchronous query sent, waiting for a reply..");
 
 			while (!task.IsCompleted)
@@ -93,24 +93,6 @@ namespace MapsApiTest
 
 			Console.WriteLine("Finished! Press any key to exit...");
 			Console.ReadKey();
-		}
-
-		private static void PrintDirections(DirectionsResponse directions)
-		{
-			Route route = directions.Routes.First();
-			Leg leg = route.Legs.First();
-
-			foreach (Step step in leg.Steps)
-			{
-				Console.WriteLine(StripHTML(step.HtmlInstructions));
-			}
-
-			Console.WriteLine();
-		}
-
-		private static string StripHTML(string html)
-		{
-			return Regex.Replace(html, @"<(.|\n)*?>", string.Empty);
 		}
 	}
 }
