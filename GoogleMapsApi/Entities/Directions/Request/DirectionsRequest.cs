@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using GoogleMapsApi.Engine;
 using GoogleMapsApi.Entities.Common;
 
 namespace GoogleMapsApi.Entities.Directions.Request
 {
 	public class DirectionsRequest : SignableRequest
 	{
+		private static DateTime _unixDate = new DateTime(1970, 1, 1);
+
 		protected internal override string BaseUrl
 		{
 			get
@@ -124,12 +124,20 @@ namespace GoogleMapsApi.Entities.Directions.Request
 			}
 
 			if (ArrivalTime != default(DateTime))
-				parameters.Add("arrival_time", UnixTimeConverter.DateTimeToUnixTimestamp(ArrivalTime).ToString(CultureInfo.InvariantCulture));
+				parameters.Add("arrival_time", DateTimeToUnixTimestamp(ArrivalTime).ToString());
 
 			if (DepartureTime != default(DateTime))
-				parameters.Add("departure_time", UnixTimeConverter.DateTimeToUnixTimestamp(DepartureTime).ToString(CultureInfo.InvariantCulture));
+				parameters.Add("departure_time", DateTimeToUnixTimestamp(DepartureTime).ToString());
 
 			return parameters;
+		}
+
+		/// <summary>
+		/// Converts a DateTime to a Unix timestamp
+		/// </summary>
+		private int DateTimeToUnixTimestamp(DateTime dateTime)
+		{
+			return (int)(dateTime - _unixDate.ToLocalTime()).TotalSeconds;
 		}
 	}
 }
