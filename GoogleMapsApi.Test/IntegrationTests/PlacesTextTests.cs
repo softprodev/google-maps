@@ -1,22 +1,22 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using GoogleMapsApi.Entities.PlacesText.Request;
 using GoogleMapsApi.Entities.PlacesText.Response;
 using NUnit.Framework;
 
-namespace GoogleMapsApi.Test
+namespace GoogleMapsApi.Test.IntegrationTests
 {
     [TestFixture]
-    public class PlacesTextTests
+    public class PlacesTextTests : BaseTestIntegration
     {
-        private readonly string apiKey = TestConfigurations.ApiKey;
-
         [Test]
         public void ReturnsFormattedAddress()
         {
-            if (apiKey == "") Assert.Inconclusive("API key not specified");
+            if (string.IsNullOrWhiteSpace(ApiKey)) Assert.Inconclusive("API key not specified");
+
             var request = new PlacesTextRequest
                               {
-                                  ApiKey = apiKey,
+                                  ApiKey = ApiKey,
                                   Query = "1 smith st parramatta",
                                   Types = "street_address"
                               };
