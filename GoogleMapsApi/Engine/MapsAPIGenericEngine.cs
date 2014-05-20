@@ -62,8 +62,7 @@ namespace GoogleMapsApi.Engine
 
 			try
 			{
-			    var uri = request.GetUri();
-				var data = new WebClientEx(timeout).DownloadData(uri);
+				var data = new WebClientEx(timeout).DownloadData(request.GetUri());
 				return Deserialize(data);
 			}
 			catch (WebException ex)

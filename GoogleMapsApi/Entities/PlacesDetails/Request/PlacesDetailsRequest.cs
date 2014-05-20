@@ -11,6 +11,7 @@ namespace GoogleMapsApi.Entities.PlacesDetails.Request
             get { return "maps.googleapis.com/maps/api/place/details/"; }
         }
 
+        public string ApiKey { get; set; } // required
         public string Reference { get; set; } // required
 
         public string Language { get; set; } // optional
@@ -32,6 +33,7 @@ namespace GoogleMapsApi.Entities.PlacesDetails.Request
             QueryStringParametersList parameters = base.GetQueryStringParameters();
 
             parameters.Add("reference", Reference);
+            parameters.Add("key", ApiKey);
 
             if (!string.IsNullOrWhiteSpace(Language)) parameters.Add("language", Language);
             
