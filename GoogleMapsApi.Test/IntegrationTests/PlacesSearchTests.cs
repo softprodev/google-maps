@@ -1,24 +1,20 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
+using System.Threading;
 using GoogleMapsApi.Entities.Common;
-using GoogleMapsApi.Entities.PlacesDetails.Request;
-using GoogleMapsApi.Entities.PlacesDetails.Response;
-using NUnit.Framework;
 using GoogleMapsApi.Entities.Places.Request;
 using GoogleMapsApi.Entities.Places.Response;
-using System.Threading;
+using NUnit.Framework;
 
-namespace GoogleMapsApi.Test
+namespace GoogleMapsApi.Test.IntegrationTests
 {
     [TestFixture]
-    public class PlacesSearchTests
+    public class PlacesSearchTests : BaseTestIntegration
     {
-        public string ApiKey = ""; // your API key goes here...
-
         [Test]
         public void ReturnsNearbySearchRequest()
         {
-            if (ApiKey == "") Assert.Inconclusive("API key not specified");
             var request = new PlacesRequest
             {
                 ApiKey = ApiKey,
@@ -41,7 +37,6 @@ namespace GoogleMapsApi.Test
         [Test]
         public void TestNearbySearchPagination()
         {
-            if (ApiKey == "") Assert.Inconclusive("API key not specified");
             var request = new PlacesRequest
             {
                 ApiKey = ApiKey,

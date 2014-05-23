@@ -3,7 +3,7 @@ google-maps
 
 Google Maps Web Services API wrapper for .NET
 
-For Quickstart and more info read the wiki pages (https://github.com/maximn/google-maps/wiki)
+For more info read the wiki pages
 
 The web page - http://maximn.github.com/google-maps
 

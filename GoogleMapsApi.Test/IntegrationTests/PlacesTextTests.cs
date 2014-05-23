@@ -1,19 +1,17 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using GoogleMapsApi.Entities.PlacesText.Request;
 using GoogleMapsApi.Entities.PlacesText.Response;
 using NUnit.Framework;
 
-namespace GoogleMapsApi.Test
+namespace GoogleMapsApi.Test.IntegrationTests
 {
     [TestFixture]
-    public class PlacesTextTests
+    public class PlacesTextTests : BaseTestIntegration
     {
-        public string ApiKey = ""; // your API key goes here...
-
         [Test]
         public void ReturnsFormattedAddress()
         {
-            if (ApiKey == "") Assert.Inconclusive("API key not specified");
             var request = new PlacesTextRequest
                               {
                                   ApiKey = ApiKey,
