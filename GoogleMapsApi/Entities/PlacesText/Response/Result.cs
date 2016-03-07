@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using GoogleMapsApi.Entities.Common;
 
 namespace GoogleMapsApi.Entities.PlacesText.Response
 {
@@ -39,8 +37,5 @@ namespace GoogleMapsApi.Entities.PlacesText.Response
 
         [DataMember(Name = "place_id")]
         public string PlaceId { get; set; }
-
-        [DataMember(Name = "photos")]
-        public IEnumerable<Photo> Photos { get; set; } 
     }
 }
